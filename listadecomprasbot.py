@@ -78,7 +78,7 @@ def ask_new_name(message):
     if message.text[15:]:
         change_name(message)
     else:
-        msg = bot.send_message(chat_id=message.chat.id, text=f'No hay problema, ¿como quieres que te llame ahora?', reply_markup=ForceReply())
+        msg = bot.send_message(chat_id=message.chat.id, text='No hay problema, ¿como quieres que te llame ahora?', reply_markup=ForceReply())
         bot.register_next_step_handler(msg, change_name)
     
 def change_name(message):
