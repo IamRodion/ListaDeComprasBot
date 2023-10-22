@@ -37,9 +37,9 @@ COMMANDS_MENU = """Mi función es recordar tu lista de compras, puedes probar lo
 <b>/comprar:</b> Te pregunto que necesitas comprar y lo guardaré
 <b>/comprar [objeto]:</b> Guardaré el objeto que escribas
 <b>/lista:</b> Te muestro la lista de las cosas que necesitas comprar
-<b>/borrar:</b>, Te pregunto que objeto de la lista quieres borrar
-<b>/borrar [número]:</b>, Borraré el objeto que indiques
-<b>/borrar_todo:</b>, Borraré todos los objetos en tu lista
+<b>/borrar:</b> Te pregunto que objeto de la lista quieres borrar
+<b>/borrar [número]:</b> Borraré el objeto que indiques
+<b>/borrar_todo:</b> Borraré todos los objetos en tu lista
 """
 
 # Stickers
@@ -61,7 +61,7 @@ def start(message):
     if user:
         bot.send_message(chat_id=message.chat.id, text=f'Hola <b>{user.name}</b>\n{COMMANDS_MENU}', parse_mode="HTML")
     else:
-        msg = bot.send_message(chat_id=message.chat.id, text=f'Hola {message.from_user.username}, eres un usuario nuevo. \n¿Como quieres que te llame?', reply_markup=ForceReply())
+        msg = bot.send_message(chat_id=message.chat.id, text=f'Hola {message.from_user.username}, eres un usuario nuevo.\n¿Como quieres que te llame?', reply_markup=ForceReply())
         bot.register_next_step_handler(msg, login)
 
 def login(message):
@@ -94,7 +94,7 @@ def ask_item_name(message):
     if message.text[9:]:
         save_item(message)
     else:
-        msg = bot.send_message(chat_id=message.chat.id, text=f'¿Que necesitas comprar?', reply_markup=ForceReply())
+        msg = bot.send_message(chat_id=message.chat.id, text='¿Que necesitas comprar?', reply_markup=ForceReply())
         bot.register_next_step_handler(msg, save_item)
 
 def save_item(message):
@@ -130,7 +130,7 @@ def ask_item(message):
     name = session.query(User.name).filter(User.id == message.from_user.id).scalar()
     if not items:
         bot.send_sticker(chat_id=message.chat.id, sticker=STICKER_EMPTY_LIST)
-        bot.send_message(chat_id=message.chat.id, text=f'<b>{name}</b>, no he encontrado objetos en tu lista')
+        bot.send_message(chat_id=message.chat.id, text=f'<b>{name}</b>, no he encontrado objetos en tu lista', parse_mode="HTML")
     elif message.text[8:]:
         delete_item(message)
     else:
